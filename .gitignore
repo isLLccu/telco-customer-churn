@@ -23,6 +23,10 @@ ENV/
 # Generated data (auto-created by scripts)
 data/processed/
 
+# Course submission documents
+docs/
+ppt/
+
 # Jupyter temp
 *.ipynb_checkpoints
 
