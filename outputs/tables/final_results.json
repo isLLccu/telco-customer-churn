@@ -1,6 +1,6 @@
 {
   "best_model": "GradientBoosting",
-  "best_threshold": 0.27999854594436535,
+  "best_threshold": 0.2799985459443653,
   "test_metrics_best_default_threshold": {
     "Model": "GradientBoosting",
     "Accuracy": 0.8005677785663591,
