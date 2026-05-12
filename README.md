@@ -43,7 +43,7 @@ telco_project/
 ├── outputs/
 │   ├── figures/                    # EDA、ROC/PR 曲线、混淆矩阵、分群图
 │   └── tables/                     # 模型指标、特征重要性、分群统计
-├── Telco_Churn_Mining.ipynb        # 含完整说明的 Notebook
+├── Telco_Churn_Mining_Final_202425310809_林乐珊.ipynb   # 含完整说明的 Notebook
 └── requirements.txt
 ```
 
@@ -56,7 +56,7 @@ pip install -r requirements.txt
 python src/run_analysis.py
 ```
 
-所有图表和表格自动输出到 `outputs/`。Notebook `Telco_Churn_Mining.ipynb` 提供相同的流程并附有逐步说明。
+所有图表和表格自动输出到 `outputs/`。Notebook `Telco_Churn_Mining_Final_202425310809_林乐珊.ipynb` 提供相同的流程并附有逐步说明。
 
 ## 技术细节
 
