@@ -1,0 +1,31 @@
+{
+  "best_model": "GradientBoosting",
+  "best_threshold": 0.27999854594436535,
+  "test_metrics_best_default_threshold": {
+    "Model": "GradientBoosting",
+    "Accuracy": 0.8005677785663591,
+    "Precision": 0.6608996539792388,
+    "Recall": 0.5106951871657754,
+    "F1": 0.5761689291101055,
+    "ROC_AUC": 0.8465021054535121,
+    "PR_AUC": 0.6679622566949952
+  },
+  "test_metrics_best_f1_threshold": {
+    "Accuracy": 0.7601135557132718,
+    "Precision": 0.532258064516129,
+    "Recall": 0.7941176470588235,
+    "F1": 0.6373390557939914,
+    "ROC_AUC": 0.8465021054535121,
+    "PR_AUC": 0.6679622566949952,
+    "ConfusionMatrix": [
+      [
+        774,
+        261
+      ],
+      [
+        77,
+        297
+      ]
+    ]
+  }
+}

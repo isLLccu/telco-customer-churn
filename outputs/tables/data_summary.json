@@ -1,0 +1,8 @@
+{
+  "n_samples": 7043,
+  "n_columns_original": 21,
+  "churn_count": 1869,
+  "non_churn_count": 5174,
+  "churn_rate": 0.2653698707936959,
+  "missing_totalcharges_filled": 11
+}
