@@ -1,85 +1,90 @@
-# Telco Customer Churn Prediction & Value Segmentation
+# 电信客户流失预测与价值细分
 
-A machine learning pipeline that predicts customer churn and segments customers by value for a telecommunications dataset. The system covers the full workflow from raw data to actionable insights: data cleaning, exploratory analysis, classification modeling, threshold optimization, feature importance, and K-Means clustering.
+基于机器学习的电信客户流失预测与价值细分系统，覆盖从原始数据到可操作洞察的完整流程：数据清洗、探索性分析、分类建模、阈值优化、特征重要性解释与 K-Means 客户分群。
 
-## Overview
+## 项目简介
 
-Customer churn is a critical business problem in telecommunications. This project builds a dual-module system:
+客户流失是电信行业的核心业务问题。本项目构建了一个双模块系统：
 
-- **Churn Prediction** — classifies whether a customer will churn, with threshold tuning to maximize business recall
-- **Customer Segmentation** — groups customers into four behavioral segments to guide targeted retention strategies
+- **流失预测** — 预测客户是否会流失，通过阈值调优最大化业务召回率
+- **客户分群** — 将客户划分为四个行为群体，为定向留存策略提供依据
 
-**Dataset**: [IBM Telco Customer Churn](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) — 7,043 customers, 21 features, 26.5% churn rate.
+**数据集**：[IBM Telco Customer Churn](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) — 7,043 位客户，21 个特征，流失率 26.5%。
 
-## Results
+## 实验结果
 
-| Model | ROC-AUC | F1 (threshold=0.28) | Recall |
+| 模型 | ROC-AUC | F1（阈值=0.28） | 召回率 |
 |---|---|---|---|
 | **Gradient Boosting** | **0.847** | **0.637** | **0.794** |
 | Random Forest | 0.846 | 0.634 | 0.765 |
 | Logistic Regression + SMOTE | 0.844 | 0.622 | 0.789 |
 
-Cross-validation ROC-AUC (3-fold stratified): **0.848 ± 0.008**
+交叉验证 ROC-AUC（3 折分层）：**0.848 ± 0.008**
 
-**Top predictive features**: `ChargePerTenure`, `Contract_Month-to-month`, `InternetService_Fiber optic`
+**Top 预测特征**：`ChargePerTenure`、`Contract_Month-to-month`、`InternetService_Fiber optic`
 
-**Customer segments** (K-Means, k=4):
+**客户分群结果**（K-Means，k=4）：
 
-| Segment | Customers | Churn Rate | Avg Tenure | Avg Monthly Charge |
+| 分群 | 客户数 | 流失率 | 平均使用月数 | 平均月费 |
 |---|---|---|---|---|
-| High-risk new | 755 | 66.9% | 1.7 mo | $69.73 |
-| At-risk growing | 1,987 | 39.3% | 19.4 mo | $78.71 |
-| Stable high-value | 2,061 | 14.5% | 59.9 mo | $89.96 |
-| Low-spend loyal | 2,240 | 12.8% | 28.9 mo | $27.53 |
+| 高风险新客户 | 755 | 66.9% | 1.7 个月 | $69.73 |
+| 中风险成长客户 | 1,987 | 39.3% | 19.4 个月 | $78.71 |
+| 稳定高价值客户 | 2,061 | 14.5% | 59.9 个月 | $89.96 |
+| 低消费忠实客户 | 2,240 | 12.8% | 28.9 个月 | $27.53 |
 
-## Project Structure
+## 项目结构
 
 ```
 telco_project/
 ├── data/
-│   └── raw/                        # Source CSV (included)
+│   └── raw/                        # 原始数据集（已包含）
 ├── src/
-│   └── run_analysis.py             # Reproducible end-to-end pipeline
+│   └── run_analysis.py             # 可复现的端到端分析脚本
 ├── outputs/
-│   ├── figures/                    # EDA, ROC/PR curves, confusion matrix, segments
-│   └── tables/                     # Model metrics, feature importance, cluster summary
-├── Telco_Churn_Mining.ipynb        # Notebook with full narrative
+│   ├── figures/                    # EDA、ROC/PR 曲线、混淆矩阵、分群图
+│   └── tables/                     # 模型指标、特征重要性、分群统计
+├── Telco_Churn_Mining.ipynb        # 含完整说明的 Notebook
 └── requirements.txt
 ```
 
-## Quickstart
+## 快速开始
 
-**Requirements**: Python 3.10+
+**环境要求**：Python 3.10+
 
 ```bash
 pip install -r requirements.txt
 python src/run_analysis.py
 ```
 
-All figures and tables are written to `outputs/`. The notebook `Telco_Churn_Mining.ipynb` provides the same pipeline with inline explanations.
+所有图表和表格自动输出到 `outputs/`。Notebook `Telco_Churn_Mining.ipynb` 提供相同的流程并附有逐步说明。
 
-## Pipeline Details
+## 技术细节
 
-### Feature Engineering
-Three derived features are created on top of the original 21:
+### 特征工程
 
-- `ChargePerTenure` — monthly charge divided by `(tenure + 1)`, capturing cost-efficiency pressure on newer customers
-- `AvgMonthlyCharge` — `TotalCharges / tenure`, falling back to `MonthlyCharges` for zero-tenure accounts
-- `TenureSegment` — tenure bucketed into five lifecycle bands (0–6, 7–12, 13–24, 25–48, 49–72 months)
+在原始 21 个字段基础上新增三个衍生特征：
 
-### Class Imbalance
-The dataset is imbalanced (26.5% churn). Two strategies are applied and compared:
-- SMOTE oversampling (Logistic Regression pipeline)
-- `class_weight="balanced"` (Random Forest, Gradient Boosting)
+- `ChargePerTenure` — 月费除以 `(tenure + 1)`，衡量新客户的费用压力
+- `AvgMonthlyCharge` — `TotalCharges / tenure`，对零租期客户回退到 `MonthlyCharges`
+- `TenureSegment` — 按客户生命周期分段（0–6、7–12、13–24、25–48、49–72 个月）
 
-### Threshold Optimization
-Default threshold (0.5) maximizes accuracy but undershoots recall. The pipeline sweeps thresholds via the precision-recall curve and selects the one that maximizes F1, yielding a threshold of **0.28** and lifting recall from 51% to **79%**.
+### 类别不平衡处理
 
-### Segmentation
-K-Means (k=4) is applied to `[tenure, MonthlyCharges, TotalCharges, ChargePerTenure]` after standard scaling. Segments are ranked by churn rate to produce an actionable retention priority list.
+数据集存在类别不平衡（流失率 26.5%），采用两种策略对比：
 
-## Reproducibility
+- SMOTE 过采样（用于逻辑回归管道）
+- `class_weight="balanced"`（用于随机森林、梯度提升）
 
-- Random seed fixed at `42` throughout
-- No hardcoded absolute paths — the script resolves paths relative to the project root
-- All outputs are regenerated from scratch on each run
+### 阈值优化
+
+默认阈值（0.5）偏向准确率但召回率不足。通过遍历精确率-召回率曲线选取 F1 最优阈值，最终确定 **0.28**，将召回率从 51% 提升至 **79%**。
+
+### 客户分群
+
+对 `[tenure, MonthlyCharges, TotalCharges, ChargePerTenure]` 标准化后进行 K-Means（k=4）聚类，按流失率排序，输出可直接用于运营决策的优先级留存列表。
+
+## 可复现性
+
+- 全局随机种子固定为 `42`
+- 无硬编码绝对路径，脚本以项目根目录为基准自动解析路径
+- 每次运行从零重新生成全部输出
